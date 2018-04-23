@@ -1,0 +1,54 @@
+{% extends 'music/base.html'%}
+
+{% block body %}
+
+
+
+
+    {%for album in all_album %}
+
+
+
+       <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="{% url 'music:detail' album.id %}"><img src="{{album.album_logo.url}}" style="width:100%"/>
+
+
+          <div class="caption">
+
+
+          <blockquote>{{album.album_title}}
+          <footer>{{album.artist}}
+              </footer>
+          </blockquote>
+
+
+      </div></a>
+        <div class="row">
+            <div class="col-md-2">
+        <a href="{% url 'music:album-Update' album.id %}">
+            <button type="button" class="btn btn-primary" >
+                edit
+            </button>
+        </a>
+                </div>
+                        <div class="col-md-2">
+
+
+        <form action="{% url 'music:album-delete' album.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="album_id" value="{{album.id}}" />
+            <button type="submit" class="glyphicon glyphicon-trash"></button>
+        </form>
+            </div>
+            </div>
+
+        </div>
+           </div>
+
+
+
+    {%endfor%}
+{% endblock body%}
+
+

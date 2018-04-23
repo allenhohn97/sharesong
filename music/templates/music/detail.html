@@ -1,0 +1,66 @@
+{% extends 'music/base.html'%}
+
+
+{% block title%}Album details{% endblock title%}
+
+
+{% block body%}
+<div class="row">
+{% if error_message%}
+<p><strong>{{error_message}}</strong></p>
+{% endif %}
+    </div>
+
+
+
+  <div class="col-sm-offset-6 col-sm-2">
+         <a href="{% url 'music:song-add' album.id %}">
+         <button class="btn btn-primary" >Add songs</button></a>
+     </div>
+
+<form action="{% url 'music:favourite' album.id %}" target="_parent" method="post" >
+
+    {% csrf_token %}
+    <div class="row">
+
+
+         <div class="col-sm-6">
+ <div class="container">
+
+         <div class="thumbnail">
+    <img src="{{album.album_logo.url}}" class="image" alt="{{album.artist}}" style="width:100%"/><br><br><br>
+      <div class="middle">
+    <div class="text">{{album.artist}}</div>
+  </div>
+             <div class="caption">
+                 <h3>{{album.album_title}}</h3>
+             </div>
+             </div>
+
+
+
+
+
+
+ {% for song in album.song_set.all %}
+    <input type="radio" id="song{{ forloop.counter}}" name="song" value="{{song.id}}" />
+    <label for="song{{ forloop.counter}}" class="container">
+        {{song.song_title}}
+     {% if song.is_favourite %}
+        <img src="https://i.stack.imgur.com/Kg1Do.png"/>
+     {% endif %}
+    </label><br><br>
+ {% endfor %}
+
+
+ <input class="btn btn-primary" type="submit" name="submit" value="favourite" />
+ <input class="btn btn-primary" type="submit" name="submit" value="unfavourite" />
+
+
+ </div>
+              </div>
+
+      </div>
+</form>
+
+{% endblock body%}
